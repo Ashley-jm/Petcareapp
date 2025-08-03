@@ -12,5 +12,11 @@ fun NavGraph(navController: NavHostController) {
         composable("welcome") { WelcomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
+        composable("home/{userName}") { backStackEntry ->
+            val userName = backStackEntry.arguments?.getString("userName") ?: "User"
+            HomeScreen(navController = navController, userName = userName)
+        }
+        composable("reminder") { ReminderScreen(navController) }
+        composable("add_pet") { AboutPetScreen(navController) }
     }
 }

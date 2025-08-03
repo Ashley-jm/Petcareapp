@@ -1,19 +1,32 @@
 package com.jing91.pawfit.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.jing91.pawfit.viewmodel.UserViewModel
+import com.jing91.pawfit.ui.theme.PetcareAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavController) {
+    val context = LocalContext.current
+    val viewModel: UserViewModel = viewModel()
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { TopAppBar(title = { Text("Login") }) }
     ) { innerPadding ->
@@ -25,9 +38,6 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -52,7 +62,18 @@ fun LoginScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    // TODO: 登录逻辑
+                    if (email.isNotBlank() && password.isNotBlank()) {
+                        viewModel.loginUser(email, password) { user ->
+                            if (user != null) {
+                                Toast.makeText(context, "Welcome，${user.username}", Toast.LENGTH_SHORT).show()
+                                navController.navigate("home/${user.username}")
+                            } else {
+                                Toast.makeText(context, "Username or password not correct.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "Please enter email and password.", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -67,5 +88,13 @@ fun LoginScreen(navController: NavController) {
                 Text("Don't have an account? Register")
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    PetcareAppTheme {
+        LoginScreen(navController = rememberNavController())
     }
 }
