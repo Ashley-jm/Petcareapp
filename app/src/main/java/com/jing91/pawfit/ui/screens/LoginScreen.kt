@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.jing91.pawfit.ui.components.PetTopAppBar
 import com.jing91.pawfit.viewmodel.UserViewModel
 import com.jing91.pawfit.ui.theme.PetcareAppTheme
 
@@ -27,9 +28,9 @@ fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Login") }) }
-    ) { innerPadding ->
+   Scaffold(
+            topBar = { PetTopAppBar(title = "Login") }
+        ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -85,7 +86,7 @@ fun LoginScreen(navController: NavController) {
             TextButton(onClick = {
                 navController.navigate("register")
             }) {
-                Text("Don't have an account? Register")
+                Text("Sign up now!")
             }
         }
     }

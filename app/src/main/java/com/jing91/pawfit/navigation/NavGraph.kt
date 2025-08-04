@@ -18,5 +18,8 @@ fun NavGraph(navController: NavHostController) {
         }
         composable("reminder") { ReminderScreen(navController) }
         composable("add_pet") { AboutPetScreen(navController) }
+        composable("add_reminder") { AddReminderScreen(navController) }
+        composable("pet") { FavoriteScreen(navController) }
+        composable("home") { HomeScreen(navController) }
     }
 }

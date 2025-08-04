@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.jing91.pawfit.R
 import com.jing91.pawfit.database.Pet
+import com.jing91.pawfit.ui.components.PetTopAppBar
 import com.jing91.pawfit.viewmodel.PetViewModel
 import java.util.*
 
@@ -36,7 +37,7 @@ fun AboutPetScreen(navController: NavController) {
     var selectedType by remember { mutableStateOf("Dog") }
 
 
-    // 日期选择器
+
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(
         context,
@@ -47,11 +48,8 @@ fun AboutPetScreen(navController: NavController) {
     )
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("About Your Pet") }
-            )
-        }
+        topBar = { PetTopAppBar(title = "About Your Pet") }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -60,7 +58,7 @@ fun AboutPetScreen(navController: NavController) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            // 占位图片
+
             Box(
                 modifier = Modifier
                     .size(100.dp)
@@ -132,13 +130,13 @@ fun AboutPetScreen(navController: NavController) {
                             type = selectedType
                         )
                         petViewModel.addPet(pet) {
-                            navController.navigate("home")
+                            navController.navigate("favorites")
                         }
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Next")
+                Text("Save Pet")
             }
 
         }

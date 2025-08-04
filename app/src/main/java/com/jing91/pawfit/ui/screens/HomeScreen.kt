@@ -3,7 +3,7 @@ package com.jing91.pawfit.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -32,7 +32,6 @@ import com.jing91.pawfit.viewmodel.ReminderViewModel
 fun HomeScreen(
     navController: NavController,
     userName: String = "User",
-    petName: String = "Your Pet"
 ) {
     val reminderViewModel: ReminderViewModel = viewModel()
     val reminders by reminderViewModel.reminders.collectAsState()
@@ -62,7 +61,7 @@ fun HomeScreen(
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                     label = { Text("Home") },
                     selected = true,
-                    onClick = { /* Stay on home */ }
+                    onClick = {  }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Notifications, contentDescription = "Reminder") },
@@ -91,7 +90,7 @@ fun HomeScreen(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            // 🐾 Pet Info Section
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -99,11 +98,11 @@ fun HomeScreen(
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("$petName (Owner: $userName)", style = MaterialTheme.typography.headlineSmall)
+                    Text("Welcome $userName! ", style = MaterialTheme.typography.headlineSmall)
                 }
             }
 
-            // 📝 Reminder Section
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -111,22 +110,32 @@ fun HomeScreen(
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Reminder", style = MaterialTheme.typography.titleMedium)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = { navController.navigate("reminder") }) {
-                        Text("View All Reminders")
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Reminder", style = MaterialTheme.typography.titleMedium)
+                        TextButton(onClick = { navController.navigate("reminder") }) {
+                            Text("View All")
+                        }
                     }
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
+
+                    // 横向滑动的提醒项列表
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        items(reminders) { reminder ->
+                        items(reminders.take(2)) { reminder ->
                             ReminderCard(reminder.title, reminder.time)
                         }
                     }
                 }
             }
+
 
             // ❤️ Health Info Section
             Card(

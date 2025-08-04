@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jing91.pawfit.database.User
+import com.jing91.pawfit.ui.components.PetTopAppBar
 import com.jing91.pawfit.viewmodel.UserViewModel
 import com.jing91.pawfit.ui.theme.PetcareAppTheme
 
@@ -30,8 +31,8 @@ fun RegisterScreen(navController: NavController) {
     var petName by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Register") }) }
-    ) { innerPadding ->
+        topBar = { PetTopAppBar(title = "Registration") }
+    ){ innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)

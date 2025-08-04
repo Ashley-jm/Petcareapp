@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jing91.pawfit.R
+import com.jing91.pawfit.ui.components.PetTopAppBar
 import com.jing91.pawfit.ui.theme.PetcareAppTheme
 
 
@@ -21,9 +22,9 @@ import com.jing91.pawfit.ui.theme.PetcareAppTheme
 fun WelcomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Welcome") })
-        }
-    ) { innerPadding ->
+            PetTopAppBar(title = "Welcome",showLogo = false) })
+
+     { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -35,7 +36,9 @@ fun WelcomeScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.pawfit_logo),
                 contentDescription = "App Logo",
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier
+                .fillMaxWidth()
+                    .aspectRatio(1f)
             )
 
             Spacer(modifier = Modifier.height(32.dp))

@@ -5,26 +5,42 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.jing91.pawfit.database.AppDatabase
 import com.jing91.pawfit.database.Reminder
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ReminderViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dao = AppDatabase.getDatabase(application).reminderDao()
+    private val reminderDao = AppDatabase.getDatabase(application).reminderDao()
 
-    val reminders = dao.getAllReminders()
+    // Flow: 实时获取所有提醒
+    val reminders: StateFlow<List<Reminder>> = reminderDao.getAllReminders()
+        .map { list ->
+            list.sortedBy { parseDate(it.time) }
+        }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun insertReminder(title: String, time: String) {
+    // 插入 reminder
+    fun insert(reminder: Reminder, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
-            dao.insert(Reminder(title = title, time = time))
+            reminderDao.insert(reminder)
+            onComplete()
         }
     }
 
+    // 删除 reminder
     fun deleteReminder(reminder: Reminder) {
         viewModelScope.launch {
-            dao.delete(reminder)
+            reminderDao.delete(reminder)
+        }
+    }
+
+    // 时间字符串转 Date 对象（用于排序）
+    private fun parseDate(time: String): java.util.Date? {
+        return try {
+            val format = java.text.SimpleDateFormat("dd MMM - h a", java.util.Locale.getDefault())
+            format.parse(time)
+        } catch (e: Exception) {
+            null
         }
     }
 }
