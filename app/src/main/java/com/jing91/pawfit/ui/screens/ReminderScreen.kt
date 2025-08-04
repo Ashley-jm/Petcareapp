@@ -122,26 +122,3 @@ fun ReminderCard(title: String, time: String, onDelete: (() -> Unit)? = null) {
     }
 }
 
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    NavigationBar {
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("home") },
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") }
-        )
-        NavigationBarItem(
-            selected = true,
-            onClick = {  },
-            icon = { Icon(Icons.Default.Notifications, contentDescription = "Reminders") },
-            label = { Text("Reminder") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("user") },
-            icon = { Icon(Icons.Default.Person, contentDescription = "User") },
-            label = { Text("User") }
-        )
-    }
-}
