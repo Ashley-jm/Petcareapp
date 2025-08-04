@@ -36,7 +36,7 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun PetcareAppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(), // 自动跟随系统主题
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colors = if (useDarkTheme) DarkColors else LightColors

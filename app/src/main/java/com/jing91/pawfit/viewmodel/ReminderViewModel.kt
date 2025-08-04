@@ -34,7 +34,6 @@ class ReminderViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // 时间字符串转 Date 对象（用于排序）
     private fun parseDate(time: String): java.util.Date? {
         return try {
             val format = java.text.SimpleDateFormat("dd MMM - h a", java.util.Locale.getDefault())

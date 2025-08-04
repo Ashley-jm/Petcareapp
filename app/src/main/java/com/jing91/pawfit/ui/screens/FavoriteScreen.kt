@@ -1,11 +1,10 @@
 package com.jing91.pawfit.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
@@ -14,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,7 +47,7 @@ fun FavoriteScreen(navController: NavController) {
                     icon = { Icon(Icons.Default.Favorite, contentDescription = "Pet") },
                     label = { Text("Pet") },
                     selected = true,
-                    onClick = { /* Already on this screen */ }
+                    onClick = { }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "User") },
@@ -70,10 +70,24 @@ fun FavoriteScreen(navController: NavController) {
                                 .padding(8.dp),
                             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                         ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Text(text = "Name: ${pet.name}")
-                                Text(text = "Breed: ${pet.breed}")
-                                Text(text = "Birthday: ${pet.birthday}")
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text("Name: ${pet.name}")
+                                    Text("Breed: ${pet.breed}")
+                                    Text("Birthday: ${pet.birthday}")
+                                }
+                                IconButton(onClick = { viewModel.deletePet(pet) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Delete pet"
+                                    )
+                                }
                             }
                         }
                     }

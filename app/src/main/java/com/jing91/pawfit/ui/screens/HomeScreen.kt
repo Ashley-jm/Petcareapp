@@ -124,7 +124,6 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // 横向滑动的提醒项列表
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -137,7 +136,6 @@ fun HomeScreen(
             }
 
 
-            // ❤️ Health Info Section
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -174,7 +172,6 @@ fun EditableHealthCard(title: String, value: String) {
         modifier = Modifier
             .size(150.dp, 100.dp)
             .clickable {
-                // TODO: 弹出对话框或跳转编辑页面
             }
     ) {
         Column(

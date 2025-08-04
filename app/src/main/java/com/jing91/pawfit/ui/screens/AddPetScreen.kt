@@ -24,6 +24,7 @@ import com.jing91.pawfit.ui.components.PetTopAppBar
 import com.jing91.pawfit.viewmodel.PetViewModel
 import java.util.*
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutPetScreen(navController: NavController) {
@@ -37,14 +38,15 @@ fun AboutPetScreen(navController: NavController) {
     var selectedType by remember { mutableStateOf("Dog") }
 
 
-
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, day: Int ->
             birthday = String.format("%02d/%02d/%04d", day, month + 1, year)
         },
-        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
     )
 
     Scaffold(
@@ -63,7 +65,7 @@ fun AboutPetScreen(navController: NavController) {
                 modifier = Modifier
                     .size(100.dp)
                     .align(Alignment.CenterHorizontally)
-                    .clickable { /* 上传图片逻辑 */ }
+                    .clickable { }
                     .background(Color.LightGray),
                 contentAlignment = Alignment.Center
             ) {
@@ -130,7 +132,7 @@ fun AboutPetScreen(navController: NavController) {
                             type = selectedType
                         )
                         petViewModel.addPet(pet) {
-                            navController.navigate("favorites")
+                            navController.navigate("pet")
                         }
                     }
                 },
@@ -142,7 +144,6 @@ fun AboutPetScreen(navController: NavController) {
         }
     }
 }
-
 @Composable
 fun PetTypeButton(type: String, selected: Boolean, onClick: () -> Unit) {
     val icon = if (type == "Dog") R.drawable.ic_dog else R.drawable.ic_cat
@@ -158,12 +159,17 @@ fun PetTypeButton(type: String, selected: Boolean, onClick: () -> Unit) {
             ),
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = if (selected) Color(0xFFFFF3E0) else Color.White,
-            contentColor = Color.Black
+            contentColor = Color.Black  // 修正颜色
         )
     ) {
-        Icon(painter = painterResource(id = icon), contentDescription = null)
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            tint = Color.Unspecified  // 避免被contentColor覆盖
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Text(type)
     }
 }
+
 
